@@ -1,26 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { SearchContext } from '../App';
+import axios from 'axios';
 
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock/Index';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
-import { setCategoryId } from '../redux/slices/filterSlice';
 
 const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const { searchValue } = useContext(SearchContext);
 
-  const { categoryId, sort } = useSelector((state) => state.filter);
+  const { categoryId, sort, currentPage } = useSelector(
+    (state) => state.filter
+  );
 
   const dispatch = useDispatch();
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
+  };
+
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
   };
 
   useEffect(() => {
@@ -31,14 +38,15 @@ const Home = () => {
     const sortBy = sort.sortProperty.replace('-', '');
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
 
-    fetch(
-      `https://63033a2a0de3cd918b30421a.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
+    axios
+      .get(
+        `https://63033a2a0de3cd918b30421a.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then((res) => {
+        setItems(res.data);
         setIsLoading(false);
       });
+
     window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
@@ -55,7 +63,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
 };
