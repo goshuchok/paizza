@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const FullPizza = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [pizza, setPizza] = useState();
 
   useEffect(() => {
@@ -14,7 +15,8 @@ const FullPizza = () => {
         );
         setPizza(data);
       } catch (error) {
-        console.log(error);
+        alert('Not found current pizza');
+        navigate('/');
       }
     }
 
