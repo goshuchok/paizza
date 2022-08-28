@@ -99,7 +99,12 @@ const Home = () => {
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => (
+    // <Link to={`/pizza/${obj.id}`} key={obj.id}>
+    //   <PizzaBlock {...obj} />
+    // </Link>
+    <PizzaBlock {...obj} key={obj.id} />
+  ));
 
   return (
     <div className="container">
