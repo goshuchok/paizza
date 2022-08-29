@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NotFoundBlock from '../components/NotFoundBlock';
 
-const NotFound = () => {
+const NotFound: React.FC = () => {
   return (
     <div style={{ textAlign: 'center', paddingBottom: '30px' }}>
       <NotFoundBlock />
