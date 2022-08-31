@@ -106,18 +106,13 @@ const Home: React.FC = () => {
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
-  const pizzas = items.map((obj: any) => (
-    // <Link to={`/pizza/${obj.id}`} key={obj.id}>
-    //   <PizzaBlock {...obj} />
-    // </Link>
-    <PizzaBlock {...obj} key={obj.id} />
-  ));
+  const pizzas = items.map((obj: any) => <PizzaBlock {...obj} key={obj.id} />);
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
