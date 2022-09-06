@@ -8,6 +8,7 @@ import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock/Index';
 import Skeleton from '../components/PizzaBlock/Skeleton';
+
 import Sort, { sortList } from '../components/Sort';
 
 import { useAppDispatch } from '../redux/store';
